@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "my-finances-app",
+    "slug": "my-finances-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
