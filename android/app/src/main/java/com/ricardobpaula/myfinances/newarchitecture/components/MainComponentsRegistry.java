@@ -1,4 +1,4 @@
-package com.myfinancesapp.newarchitecture.components;
+package com.ricardobpaula.myfinances.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

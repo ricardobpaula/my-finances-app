@@ -1,4 +1,4 @@
-package com.myfinancesapp.newarchitecture.modules;
+package com.ricardobpaula.myfinances.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

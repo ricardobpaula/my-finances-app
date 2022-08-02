@@ -1,4 +1,4 @@
-package com.myfinancesapp;
+package com.ricardobpaula.myfinances;
 
 import android.os.Build;
 import android.os.Bundle;
