@@ -13,11 +13,11 @@ type Props = IButtonProps & {
 const Button:React.FC<Props> = ({title,transparent = false, ...rest}) => {
     return (
         <ButtonNativeBase
-            background="primary.700"
-            height={14}
+            background="primary.500"
+            height={12}
             fontSize="sm"
             rounded="2xl"
-            _pressed={{bg: "primary.500"}}
+            _pressed={{bg: "primary.700"}}
             marginY={4}
             width="full"
             {...rest}

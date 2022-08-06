@@ -12,7 +12,7 @@ import { THEME } from './src/styles/theme'
 
 import Loading from './src/components/Loading'
 
-import Welcome from './src/screens/Welcome'
+import Routes from './src/routes'
 
 const App:React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -27,7 +27,7 @@ const App:React.FC = () => {
           backgroundColor='transparent'
           translucent
         />
-        { fontsLoaded ? <Welcome /> : <Loading /> }
+        { fontsLoaded ? <Routes /> : <Loading /> }
     </NativeBaseProvider>
   );
 }
