@@ -14,9 +14,14 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import InputForm from '../components/InputForm'
 import { useForm } from 'react-hook-form'
+import { Alert } from 'react-native'
+import api from '../services/api'
+import { useAuth } from '../contexts/auth'
 
 const SignUp:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const { login } = useAuth()
 
     const schema = yup.object().shape({
         firstName: yup
@@ -44,8 +49,23 @@ const SignUp:React.FC = () => {
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = async () => {
-        console.log('Sign Up')
+    const onSubmit = async ({
+        firstName, lastName, email, password
+    }: any) => {
+        try {
+            const { status } = await api.post('users', {
+                firstName,
+                lastName,
+                email,
+                password
+            })
+
+            if(status === 201) {
+                await login({email, password})
+            }
+        }catch (error: any) {
+            Alert.alert('Cadastro', 'Erro ao realizar o cadastro')
+        }
     }
 
     useEffect(() => {

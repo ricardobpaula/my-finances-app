@@ -14,9 +14,12 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import InputForm from '../components/InputForm'
 import { useForm } from 'react-hook-form'
+import { useAuth } from '../contexts/auth'
 
 const Login:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const { login } = useAuth()
 
     const schema = yup.object().shape({
         email: yup
@@ -32,12 +35,11 @@ const Login:React.FC = () => {
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = async () => {
-        console.log('Login')
-    }
-
-    const handleForgotPassword = () => {
-
+    const onSubmit = async ({email, password}: any) => {
+        await login({
+            email,
+            password
+        })
     }
 
     useEffect(() => {

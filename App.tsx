@@ -13,6 +13,8 @@ import { THEME } from './src/styles/theme'
 import Loading from './src/components/Loading'
 
 import Routes from './src/routes'
+import { NavigationContainer } from '@react-navigation/native'
+import { AuthProvider } from './src/contexts/auth'
 
 const App:React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -22,12 +24,16 @@ const App:React.FC = () => {
 
   return (
     <NativeBaseProvider theme={THEME}>
-        <StatusBar
-          barStyle='light-content'
-          backgroundColor='transparent'
-          translucent
-        />
-        { fontsLoaded ? <Routes /> : <Loading /> }
+        <NavigationContainer>
+          <AuthProvider>
+            <StatusBar
+              barStyle='light-content'
+              backgroundColor='transparent'
+              translucent
+            />
+            {fontsLoaded ? <Routes /> : <Loading />}
+          </AuthProvider>
+        </NavigationContainer>
     </NativeBaseProvider>
   );
 }
