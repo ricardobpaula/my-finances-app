@@ -30,7 +30,7 @@ interface AuthContextProps {
     signed: boolean
     user: User
     login(request: RequestProps): Promise<void>
-    logout(): void
+    logout(): Promise<void>
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
@@ -59,7 +59,6 @@ export const AuthProvider:React.FC = ({children}) => {
             setLoading(false)
 
         }
-
         loadStorage()
     },[])
 
@@ -112,8 +111,10 @@ export const AuthProvider:React.FC = ({children}) => {
         }
     }
 
-    function logout():void {
-        AsyncStorage.clear()
+    async function logout():Promise<void> {
+        await AsyncStorage.clear()
+        api.defaults.headers['x-access-token'] = undefined
+        setUser(undefined)
     }
 
     return (

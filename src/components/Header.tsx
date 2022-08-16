@@ -14,11 +14,11 @@ import { CaretLeft } from 'phosphor-react-native'
 
 type Props = StyledProps & {
     title: string
+    backButton?: boolean
 }
 
-const Header:React.FC<Props> = ({ title, ...rest }) => {
+const Header:React.FC<Props> = ({ title,backButton = true, ...rest }) => {
     const { colors } = useTheme()
-
     const navigation = useNavigation()
 
     const handleGoBack = () => {
@@ -35,15 +35,18 @@ const Header:React.FC<Props> = ({ title, ...rest }) => {
             borderBottomColor='gray.200'
             {...rest}
         >
-            <IconButton 
-              icon={<CaretLeft color={colors.primary[700]} size={24}/>}
-              onPress={handleGoBack}
-            />
+            { backButton &&
+                <IconButton 
+                icon={<CaretLeft color={colors.primary[700]} size={24}/>}
+                onPress={handleGoBack}
+                />
+            }
             <Heading
                 flex={1}
                 color='primary.500'
                 fontSize='lg'
-                paddingLeft={3}
+                textAlign={backButton ? 'left' : 'center'}
+                paddingLeft={backButton ? 3 : 0}
             >
                 {title}
             </Heading>
