@@ -1,13 +1,17 @@
 import React from 'react' 
 
+import { useTheme } from 'native-base'
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { ArrowsLeftRight, ChartBar, Gear, House, Plus } from 'phosphor-react-native'
-import Home from '../screens/Home'
-import { useTheme } from 'native-base'
+
+import HomeStack from './home.routes'
+
 import Transactions from '../screens/Transactions'
-import Reports from '../screens/Reports'
 import Settings from '../screens/Settings'
+import Reports from '../screens/Reports'
+
 const { Navigator, Screen } = createBottomTabNavigator()
 
 const AppRoutes:React.FC = () => {
@@ -25,8 +29,8 @@ const AppRoutes:React.FC = () => {
             }}
         >
             <Screen 
-                name='Home' 
-                component={Home} 
+                name='HomeStack' 
+                component={HomeStack} 
                 options={{
                     tabBarIcon: ({ color }) => <House color={color} />,
                 }}
@@ -38,16 +42,6 @@ const AppRoutes:React.FC = () => {
                     tabBarIcon: ({ color }) => <ArrowsLeftRight color={color} />,
                 }}
             />
-            {/* <Screen name='NewTransaction' 
-                component={Home}
-                options={{
-                    tabBarIcon: () => <Plus
-                        color={colors.primary[700]} 
-                        size={40}
-                    />
-                }}
-            />
-             */}
             <Screen 
                 name='Reports'
                 component={Reports} 

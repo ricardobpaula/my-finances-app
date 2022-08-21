@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://192.168.101.2:3333'
+    baseURL: 'https://my-finances-service-api.herokuapp.com'
 })
 
 export default api

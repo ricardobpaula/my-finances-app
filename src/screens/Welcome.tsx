@@ -16,6 +16,7 @@ import Button from '../components/Button'
 import { AuthStackParamsList } from '../routes/auth.routes'
 
 type WelcomeScreenProps = NativeStackNavigationProp<AuthStackParamsList, 'Welcome'>
+
 const Welcome:React.FC = () => {
 
     const navigation = useNavigation<WelcomeScreenProps>()
