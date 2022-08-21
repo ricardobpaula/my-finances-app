@@ -36,10 +36,14 @@ const Login:React.FC = () => {
     })
 
     const onSubmit = async ({email, password}: any) => {
-        await login({
+        setIsLoading(true)
+        const hasError = await login({
             email,
             password
         })
+        if(!hasError){
+            setIsLoading(false)
+        }
     }
 
     useEffect(() => {

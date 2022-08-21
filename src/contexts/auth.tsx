@@ -29,7 +29,7 @@ interface AuthContextProps {
     loading: boolean
     signed: boolean
     user: User
-    login(request: RequestProps): Promise<void>
+    login(request: RequestProps): Promise<boolean>
     logout(): Promise<void>
 }
 
@@ -62,7 +62,7 @@ export const AuthProvider:React.FC = ({children}) => {
         loadStorage()
     },[])
 
-    async function login({email, password}: RequestProps):Promise<void> {
+    async function login({email, password}: RequestProps):Promise<boolean> {
         try {
             const { data: { user, token} } = await api.post<AuthProps>('/auth/login', {
                 email,
@@ -85,10 +85,12 @@ export const AuthProvider:React.FC = ({children}) => {
 
             setUser(user)
             setLoading(false)
+            return true
 
         }catch (error: any) {
             if(!error.response){
-                return Alert.alert('Login', 'Nos desculpe, não foi possivel conectar aos nossos servidores')
+                Alert.alert('Login', 'Nos desculpe, não foi possivel conectar aos nossos servidores')
+                return false
             }
 
             const { response } = error
@@ -108,6 +110,7 @@ export const AuthProvider:React.FC = ({children}) => {
               }
               
               Alert.alert('Login', message)
+              return false
         }
     }
 
