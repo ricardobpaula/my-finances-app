@@ -38,7 +38,7 @@ const AppRoutes:React.FC = () => {
                     tabBarIcon: ({ color }) => <ArrowsLeftRight color={color} />,
                 }}
             />
-            <Screen name='NewTransaction' 
+            {/* <Screen name='NewTransaction' 
                 component={Home}
                 options={{
                     tabBarIcon: () => <Plus
@@ -47,6 +47,7 @@ const AppRoutes:React.FC = () => {
                     />
                 }}
             />
+             */}
             <Screen 
                 name='Reports'
                 component={Reports} 

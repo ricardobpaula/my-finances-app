@@ -3,15 +3,18 @@ import React from 'react'
 import {
     VStack,
     Heading,
-    useTheme
+    useTheme,
+    IconButton
 } from 'native-base' 
 
 import {
     ArrowUp,
     ArrowDown,
     CreditCard,
+    Plus,
     Wallet
 } from 'phosphor-react-native'
+
 import ItemResume from '../components/ItemResume'
 
 const Home:React.FC = () => {
@@ -57,7 +60,22 @@ const Home:React.FC = () => {
                     backgroundColorIcon={colors.primary[500]}
                 />
 
-                </VStack>
+            </VStack>
+
+            <IconButton
+                position="absolute"
+                bottom={0}
+                right={0}
+                padding={4}
+                rounded={30}
+                marginRight={5}
+                marginBottom={5}
+                shadow={3}
+                _pressed={{backgroundColor: colors.primary[500]}}
+                backgroundColor={colors.primary[700]}
+                icon={<Plus color={colors.gray[100]} size={24}/>}
+            />
+            
         </VStack>
     )
 }
