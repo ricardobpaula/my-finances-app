@@ -11,10 +11,11 @@ import {
     VStack,
 } from 'native-base'
 
+import { useNavigation } from '@react-navigation/native'
+
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import { 
-    X,
     Plus,
     ArrowUp, 
     ArrowDown,
@@ -26,11 +27,19 @@ import { HomeStackParamsList } from '../../routes/home.routes'
 
 import ItemStagger from './ItemStagger'
 
+type Screen = 'NewIncome' | 'NewExpense'| 'NewExpenseCreditCard' | 'NewTransfer'
+
 type HomeScreenProps = NativeStackNavigationProp<HomeStackParamsList, 'Home'>
 
 const NewTransactionStagger:React.FC = () => {
     const { isOpen, onToggle } = useDisclose()
+    const navigation = useNavigation<HomeScreenProps>()
     const { colors } = useTheme()
+
+    const handlePressButton = (screen: Screen) => {
+        onToggle()
+        navigation.navigate(screen)
+    }
 
     return (
         <VStack 
@@ -64,7 +73,7 @@ const NewTransactionStagger:React.FC = () => {
                         scale: 0.5,
                         opacity: 0,
                         transition: {
-                            duration: 250,
+                            duration: 150,
                             stagger: {
                                 offset: 30,
                                 reverse: true
@@ -73,17 +82,18 @@ const NewTransactionStagger:React.FC = () => {
                     }}
                 >
                     <ItemStagger 
-                        title='Nova entrada'
+                        title='Entrada'
                         icon={<ArrowUp size={20}/>}
                         backgroundColorIcon={colors.green[300]}
+                        onPress={() => handlePressButton('NewIncome')}
                     />
                     <ItemStagger 
-                        title='Nova Saida'
+                        title='Saida'
                         icon={<ArrowDown color={colors.gray[700]} size={20}/>}
                         backgroundColorIcon={colors.red[300]}
                     />
-                    <ItemStagger 
-                        title='Cartão de Crédito'
+                    <ItemStagger
+                        title='Cartão de crédito'
                         icon={<CreditCard size={20}/>}
                         backgroundColorIcon={colors.secondary[500]}
                     />
@@ -103,8 +113,8 @@ const NewTransactionStagger:React.FC = () => {
                     marginRight={5}
                     marginBottom={5}
                     onPress={onToggle}
-                    backgroundColor={colors.primary[700]}
-                    _pressed={{backgroundColor: colors.primary[500]}}
+                    backgroundColor={colors.primary[500]}
+                    _pressed={{opacity: 0.7}}
                     icon={
                             <PresenceTransition 
                                 visible={isOpen}
@@ -114,7 +124,7 @@ const NewTransactionStagger:React.FC = () => {
                                 animate={{
                                     rotate: '45deg',
                                     transition: {
-                                        duration: 250
+                                        duration: 150
                                     }
                                 }}
                             >

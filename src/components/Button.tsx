@@ -17,7 +17,7 @@ const Button:React.FC<Props> = ({title,transparent = false, ...rest}) => {
             height={12}
             fontSize="sm"
             rounded="2xl"
-            _pressed={{bg: "primary.700"}}
+            _pressed={{opacity: 0.7}}
             marginY={4}
             width="full"
             {...rest}

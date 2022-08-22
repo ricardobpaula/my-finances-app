@@ -48,7 +48,7 @@ const Home:React.FC = () => {
                     backgroundColorIcon={colors.red[300]}
                 />
                 <ItemResume
-                    title='Cartões de créditos'
+                    title='Cartões de crédito'
                     value={3533.21}
                     icon={<CreditCard size={20}/>}
                     backgroundColorIcon={colors.secondary[500]}

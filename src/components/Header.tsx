@@ -33,18 +33,19 @@ const Header:React.FC<Props> = ({ title,backButton = true, ...rest }) => {
             borderBottomWidth={0.3}
             justifyContent='space-between'
             borderBottomColor='gray.200'
+            paddingY={ backButton ? 0 : 2}
             {...rest}
         >
             { backButton &&
                 <IconButton 
-                icon={<CaretLeft color={colors.primary[700]} size={24}/>}
+                icon={<CaretLeft color={colors.primary[700]} size={21}/>}
                 onPress={handleGoBack}
                 />
             }
             <Heading
                 flex={1}
                 color='primary.500'
-                fontSize='lg'
+                fontSize='xl'
                 textAlign={backButton ? 'left' : 'center'}
                 paddingLeft={backButton ? 3 : 0}
             >

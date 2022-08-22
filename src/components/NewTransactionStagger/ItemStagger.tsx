@@ -19,7 +19,10 @@ const ItemStagger:React.FC<ItemStaggerProps> = ({title, icon,backgroundColorIcon
     const { colors } = useTheme()
 
     return (
-        <Pressable {...rest}>
+        <Pressable
+            _pressed={{opacity: 0.7}}
+            {...rest}
+        >
             <HStack
                 space={2}
                 marginX={5}

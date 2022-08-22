@@ -1,12 +1,12 @@
-import React from 'react' 
+import React from 'react'
 
 import {
     VStack
-} from 'native-base' 
+} from 'native-base'
 
 import Header from '../components/Header'
 
-const NewTransaction:React.FC = () => {
+const NewIncome:React.FC = () => {
     
     return (
         <VStack
@@ -15,11 +15,11 @@ const NewTransaction:React.FC = () => {
             safeArea
         >
             <Header
-                title='Nova movimentação'
+                title='Nova entrada'
             />
 
         </VStack>
     )
 }
 
-export default NewTransaction
+export default NewIncome
