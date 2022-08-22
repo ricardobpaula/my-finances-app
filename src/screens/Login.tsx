@@ -4,7 +4,13 @@ import {
     VStack,
     Heading,
     ScrollView,
+    useTheme,
 } from 'native-base' 
+
+import {
+    Envelope,
+    LockKey
+} from 'phosphor-react-native'
 
 import * as yup from 'yup'
 
@@ -19,6 +25,7 @@ import { useAuth } from '../contexts/auth'
 const Login:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    const { colors } = useTheme()
     const { login } = useAuth()
 
     const schema = yup.object().shape({
@@ -83,6 +90,7 @@ const Login:React.FC = () => {
                         keyboardType='email-address'
                         onChangeText={text => setValue('email', text)}
                         error={errors?.email}
+                        icon={<Envelope size={20} color={colors.gray[300]}/>}
                     />
                     <InputForm 
                         title='Senha'
@@ -90,6 +98,7 @@ const Login:React.FC = () => {
                         onChangeText={text => setValue('password', text)}
                         error={errors?.password}
                         secureTextEntry
+                        icon={<LockKey size={20} color={colors.gray[300]}/>}
                     />
                 </ScrollView>
 

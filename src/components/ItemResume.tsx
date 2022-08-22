@@ -11,9 +11,16 @@ type ItemResumeProps = {
     value: number
     icon: React.ReactNode
     backgroundColorIcon: string
+    hide?: boolean
 }
 
-const ItemResume:React.FC<ItemResumeProps> = ({ title, value,icon,backgroundColorIcon }) => {
+const ItemResume:React.FC<ItemResumeProps> = ({ 
+    title, 
+    value,
+    icon,
+    backgroundColorIcon,
+    hide = false
+ }) => {
     return (
         <HStack
                 marginY={2}
@@ -30,7 +37,11 @@ const ItemResume:React.FC<ItemResumeProps> = ({ title, value,icon,backgroundColo
                     <Text color="gray.100" fontSize="xs">{title}</Text>
                 </HStack>
                 <Text color="gray.100" fontSize="xs">
-                    {value.toLocaleString('pt-br', {style: 'currency',currency: 'BRL' })}
+                    {   hide
+                            ? '*'.repeat(8)
+                            : value.toLocaleString('pt-br', {style: 'currency',currency: 'BRL' })
+                    
+                    }
                 </Text>
         </HStack>
     )

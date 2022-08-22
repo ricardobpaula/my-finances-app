@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import {
     VStack,
     Heading,
-    ScrollView
+    ScrollView,
+    useTheme
 } from 'native-base' 
 
 import * as yup from 'yup'
@@ -17,10 +18,12 @@ import { useForm } from 'react-hook-form'
 import { Alert } from 'react-native'
 import api from '../services/api'
 import { useAuth } from '../contexts/auth'
+import { Envelope, LockKey, User } from 'phosphor-react-native'
 
 const SignUp:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    const { colors } = useTheme()
     const { login } = useAuth()
 
     const schema = yup.object().shape({
@@ -52,6 +55,7 @@ const SignUp:React.FC = () => {
     const onSubmit = async ({
         firstName, lastName, email, password
     }: any) => {
+        setIsLoading(true)
         try {
             const { status } = await api.post('users', {
                 firstName,
@@ -64,6 +68,7 @@ const SignUp:React.FC = () => {
                 await login({email, password})
             }
         }catch (error: any) {
+            setIsLoading(false)
             Alert.alert('Cadastro', 'Erro ao realizar o cadastro')
         }
     }
@@ -107,18 +112,21 @@ const SignUp:React.FC = () => {
                         placeholder='Nome'
                         onChangeText={text => setValue('firstName', text)}
                         error={errors?.firstName}
+                        icon={<User size={20} color={colors.gray[300]}/>}
                     />
                     <InputForm
                         title='Sobrenome'
                         placeholder='Sobrenome'
                         onChangeText={text => setValue('lastName', text)}
                         error={errors?.lastName}
+                        icon={<User size={20} color={colors.gray[300]}/>}
                     />
                     <InputForm
                         title='E-mail'
                         placeholder='E-mail'
                         onChangeText={text => setValue('email', text)}
                         error={errors?.email}
+                        icon={<Envelope size={20} color={colors.gray[300]}/>}
                     />
                     <InputForm
                         title='Senha'
@@ -126,6 +134,7 @@ const SignUp:React.FC = () => {
                         onChangeText={text => setValue('password', text)}
                         error={errors?.password}
                         secureTextEntry
+                        icon={<LockKey size={20} color={colors.gray[300]}/>}
                     />
                     <InputForm
                         title='Confirmação da senha'
@@ -133,6 +142,7 @@ const SignUp:React.FC = () => {
                         onChangeText={text => setValue('confirmPassword', text)}
                         error={errors?.confirmPassword}
                         secureTextEntry
+                        icon={<LockKey size={20} color={colors.gray[300]}/>}
                     />
                 </ScrollView>
                 

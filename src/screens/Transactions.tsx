@@ -4,6 +4,7 @@ import {
     VStack
 } from 'native-base' 
 import Header from '../components/Header'
+import NewTransactionStagger from '../components/NewTransactionStagger/NewTransactionStagger'
 
 const Transactions:React.FC = () => {
     return (
@@ -16,6 +17,8 @@ const Transactions:React.FC = () => {
                 title='Movimentações'
                 backButton={false}
             />
+
+            <NewTransactionStagger />
         </VStack>
     )
 }
