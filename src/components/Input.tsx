@@ -19,7 +19,7 @@ export type InputProps = IInputProps & {
 
 const Input:React.FC<InputProps> = ({icon, ...rest}) => {
     
-    const [hide, setHide] = useState<boolean>(true)
+    const [hide, setHide] = useState<boolean>(rest.secureTextEntry)
     const { colors } = useTheme()
 
     const handleToggleHide = () => {
