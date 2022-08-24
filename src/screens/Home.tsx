@@ -7,7 +7,8 @@ import {
     Text,
     IconButton,
     Box,
-    HStack
+    HStack,
+    ScrollView
 } from 'native-base' 
 
 import {
@@ -96,22 +97,27 @@ const Home:React.FC = () => {
                 />
 
             </VStack>
-
-            <Bundle 
-                title='Minhas contas'
-                icon={<Bank color={colors.primary[500]} size={24}/>}
+            
+            <ScrollView
             >
-                <Text color="white">Teste teste</Text>
-                <Text color="white">Teste teste</Text>
-            </Bundle>
+                <Bundle
+                    title='Minhas contas'
+                    icon={<Bank color={colors.primary[500]} size={24}/>}
+                    balance={33300.45}
+                    hide={hide}
+                >
+                    
+                </Bundle>
 
-            <Bundle 
-                title='Cartões de crédito'
-                icon={<Cardholder color={colors.primary[500]} size={24}/>}
-            >
-                <Text color="white">Teste teste</Text>
-                <Text color="white">Teste teste</Text>
-            </Bundle>
+                <Bundle
+                    title='Cartões de crédito'
+                    icon={<Cardholder color={colors.primary[500]} size={24}/>}
+                    balance={3533.21}
+                    hide={hide}
+                >
+                    
+                </Bundle>
+            </ScrollView>
 
             <NewTransactionStagger />
             
