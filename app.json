@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "my-finances-app",
+    "name": "My Finances",
     "slug": "my-finances-app",
     "version": "1.0.0",
     "assetBundlePatterns": [
@@ -11,6 +11,11 @@
     },
     "ios": {
       "bundleIdentifier": "com.ricardobpaula.myfinances"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4fd0c4c1-7c06-4656-9799-865a0b68ede7"
+      }
     }
   }
 }

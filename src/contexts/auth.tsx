@@ -5,8 +5,6 @@ import React, {
     useContext
 } from 'react'
 
-import { Alert } from 'react-native'
-
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import jwtDecode from 'jwt-decode'
@@ -14,6 +12,8 @@ import jwtDecode from 'jwt-decode'
 import { getAuthStorage, setAuthStorage } from '../utils/storage'
 
 import api from '../services/api'
+import { useToast } from 'native-base'
+import ToastAlert from '../components/ToastAlert'
 
 interface AuthProps {
     user: User
@@ -38,6 +38,7 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 export const AuthProvider:React.FC = ({children}) => {
     const [user, setUser] = useState<User>()
     const [loading, setLoading] = useState<boolean>(true)
+    const { show, close, isActive } = useToast()
     
     useEffect(() => {
         async function loadStorage() {
@@ -88,18 +89,14 @@ export const AuthProvider:React.FC = ({children}) => {
             return true
 
         }catch (error: any) {
-            if(!error.response){
-                Alert.alert('Login', 'Nos desculpe, não foi possivel conectar aos nossos servidores')
-                return false
-            }
+            const toastId = 'toast-login'
+            const status = error?.response?.status ?? 500
 
-            const { response } = error
+            let message = ''
 
-            let message: string
-            
-            switch (response.status) {
+            switch (status) {
                 case 404:
-                  message = 'E-mail/Senha estão incorretos.'
+                  message = 'E-mail e/ou senha estão incorretos.'
                   break
                 case 500:
                   message = 'Nos desculpe, não foi possivel conectar aos nossos servidores.'
@@ -107,10 +104,25 @@ export const AuthProvider:React.FC = ({children}) => {
                 default:
                   message = 'Oops, algo de errado não está certo.'
                   break
-              }
+            }
               
-              Alert.alert('Login', message)
-              return false
+            if(!isActive(toastId)){
+                show({
+                    render: () => 
+                        <ToastAlert                         
+                            title='Login'
+                            description={message}
+                            status={status === 404 ? 'warning' : 'error'}
+                            isClosable
+                            close={() => close(toastId)}
+                        />,
+                    duration: 1000 * 3, // ms * ss
+                    placement: 'top',
+                    id: toastId
+                })
+            }
+              
+            return false
         }
     }
 
