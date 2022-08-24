@@ -4,7 +4,8 @@ import {
     VStack,
     Heading,
     ScrollView,
-    useTheme
+    useTheme,
+    useToast
 } from 'native-base' 
 
 import * as yup from 'yup'
@@ -19,12 +20,15 @@ import { Alert } from 'react-native'
 import api from '../services/api'
 import { useAuth } from '../contexts/auth'
 import { Envelope, LockKey, User } from 'phosphor-react-native'
+import ToastAlert from '../components/ToastAlert'
 
 const SignUp:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const { colors } = useTheme()
     const { login } = useAuth()
+
+    const { show, close, isActive } = useToast()
 
     const schema = yup.object().shape({
         firstName: yup
@@ -68,8 +72,39 @@ const SignUp:React.FC = () => {
                 await login({email, password})
             }
         }catch (error: any) {
+            const toastId = 'toast-sign-up'
+            let message = ''
+
+            const status = error?.response?.status ?? 500
+
+            switch (status) {
+                case 400:
+                    message = 'Esse e-mail já está sendo utilizado'
+                    break
+                case 500:
+                    message = 'Nos desculpe, não foi possivel conectar aos nossos servidores.'
+                    break
+                default:
+                    message = 'Erro ao realizar o cadastro'
+                    break
+            }
+
+            if(!isActive(toastId)){
+                show({
+                    render: () => 
+                        <ToastAlert                         
+                            title='Login'
+                            description={message}
+                            status={status === 400 ? 'warning' : 'error'}
+                            isClosable
+                            close={() => close(toastId)}
+                        />,
+                    duration: 1000 * 3, // ms * ss
+                    placement: 'top',
+                    id: toastId
+                })
+            }
             setIsLoading(false)
-            Alert.alert('Cadastro', 'Erro ao realizar o cadastro')
         }
     }
 
