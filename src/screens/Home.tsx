@@ -97,26 +97,32 @@ const Home:React.FC = () => {
                 />
 
             </VStack>
-            
+
             <ScrollView
             >
                 <Bundle
                     title='Minhas contas'
                     icon={<Bank color={colors.primary[500]} size={24}/>}
                     balance={33300.45}
+                    data={
+                        [
+                            {id: '1', title: 'Carteira', balance: 23300.45, type: 'wallet'},
+                            {id: '2', title: 'Nubank', balance: 10000.00, type: 'bank'},
+                        ]
+                    }
                     hide={hide}
-                >
-                    
-                </Bundle>
+                    EmptyComponent={<Text>Não possui dados</Text>}
+                />                    
 
                 <Bundle
                     title='Cartões de crédito'
                     icon={<Cardholder color={colors.primary[500]} size={24}/>}
                     balance={3533.21}
+                    data={[]}
                     hide={hide}
-                >
+                    EmptyComponent={<Text color="white">Não possui dados</Text>}
+                />
                     
-                </Bundle>
             </ScrollView>
 
             <NewTransactionStagger />

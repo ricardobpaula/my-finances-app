@@ -40,7 +40,6 @@ const ItemResume:React.FC<ItemResumeProps> = ({
                     {   hide
                             ? '*'.repeat(8)
                             : value.toLocaleString('pt-br', {style: 'currency',currency: 'BRL' })
-                    
                     }
                 </Text>
         </HStack>
