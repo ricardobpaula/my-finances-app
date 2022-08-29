@@ -20,7 +20,7 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import InputForm from '../components/InputForm'
 import { useForm } from 'react-hook-form'
-import { useAuth } from '../contexts/auth'
+import { useAuth } from '../hooks/useAuth'
 
 const Login:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)

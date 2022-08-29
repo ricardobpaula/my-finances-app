@@ -33,9 +33,13 @@ interface AuthContextProps {
     logout(): Promise<void>
 }
 
-const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
+type AuthProviderProps = {
+    children: React.ReactNode
+}
 
-export const AuthProvider:React.FC = ({children}) => {
+export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
+
+export const AuthProvider:React.FC<AuthProviderProps> = ({children}) => {
     const [user, setUser] = useState<User>()
     const [loading, setLoading] = useState<boolean>(true)
     const { show, close, isActive } = useToast()
@@ -137,10 +141,4 @@ export const AuthProvider:React.FC = ({children}) => {
             {children}
         </AuthContext.Provider>
   )    
-}
-
-export function useAuth() {
-    const context = useContext(AuthContext)
-
-    return context
 }

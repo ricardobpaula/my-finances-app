@@ -2,7 +2,7 @@ import React from 'react'
 
 import AuthRoutes from './auth.routes'
 import AppRoutes from './app.routes'
-import { useAuth } from '../contexts/auth'
+import { useAuth } from '../hooks/useAuth'
 import Loading from '../components/Loading'
 
 const Routes:React.FC = () => {

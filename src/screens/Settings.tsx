@@ -5,7 +5,7 @@ import {
 } from 'native-base' 
 import Header from '../components/Header'
 import Button from '../components/Button'
-import { useAuth } from '../contexts/auth'
+import { useAuth } from '../hooks/useAuth'
 
 const Settings:React.FC = () => {
     const { logout } = useAuth()

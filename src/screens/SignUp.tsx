@@ -17,7 +17,7 @@ import Button from '../components/Button'
 import InputForm from '../components/InputForm'
 import { useForm } from 'react-hook-form'
 import api from '../services/api'
-import { useAuth } from '../contexts/auth'
+import { useAuth } from '../hooks/useAuth'
 import { Envelope, LockKey, User } from 'phosphor-react-native'
 import ToastAlert from '../components/ToastAlert'
 
