@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import {
     useTheme,
+    useToast,
     VStack
 } from 'native-base'
 
@@ -13,12 +14,18 @@ import Header from '../components/Header'
 import Button from '../components/Button'
 import InputForm from '../components/InputForm'
 import { useForm } from 'react-hook-form'
-import { Bank, CurrencyDollarSimple, Money } from 'phosphor-react-native'
+import { Bank, Money } from 'phosphor-react-native'
+import api from '../services/api'
+import { useNavigation } from '@react-navigation/native'
+import ToastAlert from '../components/ToastAlert'
 
 const FormAccount:React.FC<any> = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const { colors } = useTheme()
+    const navigation = useNavigation()
+
+    const { show, close, isActive }  = useToast()
 
     const schema = yup.object().shape({
         name: yup
@@ -33,12 +40,44 @@ const FormAccount:React.FC<any> = () => {
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = ({name, balance}: any) => {
+    const onSubmit = async ({name, balance}: any) => {
         setIsLoading(true)
-        // TODO: call api method
-        setTimeout(() => {
+        try {
+            const { status } = await api.post('/accounts', {
+                name,
+                balance
+            })
+
+            const toastId = 'form-account'
+            const message = status === 201
+                ? 'Conta cadastrada com sucesso'
+                : 'Erro ao cadastradar conta'
+            
+            if(!isActive(toastId)){
+                show({
+                    render: () => 
+                        <ToastAlert                         
+                            title='Cadastro'
+                            description={message}
+                            status={status === 201 ? 'success' : 'error'}
+                            isClosable
+                            close={() => close(toastId)}
+                        />,
+                    duration: 1000 * 3, // ms * ss
+                    placement: 'top',
+                    id: toastId
+                })
+            }
+
+            if(status === 201) {
+                reset()
+                navigation.goBack()
+            }
+        } catch (error: any) {
             setIsLoading(false)
-        }, 1000)
+            console.error(error)
+        }
+        
     }
 
     useEffect(() => {
