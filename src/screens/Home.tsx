@@ -2,39 +2,46 @@ import React, { useState } from 'react'
 
 import {
     VStack,
+    HStack,
     Heading,
     useTheme,
-    Text,
     IconButton,
-    Box,
-    HStack,
     ScrollView
 } from 'native-base' 
 
 import {
     Eye,
-    EyeClosed,
     Bank,
     Wallet,
-    Cardholder,
     ArrowUp,
     ArrowDown,
+    EyeClosed,
+    Cardholder,
     CreditCard
 } from 'phosphor-react-native'
+
+import { HomeStackParamsList } from '../routes/home.routes'
+
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import NewTransactionStagger from '../components/NewTransactionStagger/NewTransactionStagger'
 import ItemResume from '../components/ItemResume'
 import Bundle, { DataProps } from '../components/Bundle'
 import EmptyBundle from '../components/EmptyBundle'
+import { useNavigation } from '@react-navigation/native'
+
+type HomeScreenProps = NativeStackNavigationProp<HomeStackParamsList, 'Home'>
 
 const Home:React.FC = () => {
-
+    
     const [hide, setHide] = useState<boolean>(false)
     const [accounts, setAccounts] = useState<DataProps[]>([
         {id: '1', title: 'Carteira', balance: 23300.45},
         {id: '2', title: 'Nubank', balance: 10000.00},
     ])
     const [creditCards, setCreditCards] = useState<DataProps[]>([])
+
+    const navigation = useNavigation<HomeScreenProps>()
 
     const { colors } = useTheme()
 
@@ -43,7 +50,7 @@ const Home:React.FC = () => {
     }
 
     const handleCreateAccount = () => {
-        console.log('createAccount')
+        navigation.navigate('FormAccount')
     }
 
     const handleCreateCreditCard = () => {
@@ -116,7 +123,7 @@ const Home:React.FC = () => {
                 <Bundle
                     title='Minhas contas'
                     icon={<Bank color={colors.primary[500]} size={24}/>}
-                    onPress={() => handleCreateAccount}
+                    onPress={handleCreateAccount}
                     balance={33300.45}
                     data={accounts}
                     hide={hide}
@@ -137,7 +144,7 @@ const Home:React.FC = () => {
                     balance={3533.21}
                     data={creditCards}
                     hide={hide}
-                    onPress={() => handleCreateCreditCard}
+                    onPress={handleCreateCreditCard}
                     EmptyComponent={
                         <EmptyBundle
                             title='Nenhum cartão cadastrado'
