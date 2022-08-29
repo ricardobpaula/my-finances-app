@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react' 
 
 import {
-    useTheme,
-    useToast,
-    VStack
+    VStack,
+    useTheme
 } from 'native-base'
+
+import { Bank, Money } from 'phosphor-react-native'
+
+import { useNavigation } from '@react-navigation/native'
 
 import * as yup from 'yup'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { useForm } from 'react-hook-form'
+
+import api from '../services/api'
+
 import Header from '../components/Header'
 import Button from '../components/Button'
 import InputForm from '../components/InputForm'
-import { useForm } from 'react-hook-form'
-import { Bank, Money } from 'phosphor-react-native'
-import api from '../services/api'
-import { useNavigation } from '@react-navigation/native'
-import ToastAlert from '../components/ToastAlert'
+
+import { useCustomToast } from '../hooks/useCustomToast'
 
 const FormAccount:React.FC<any> = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -25,7 +29,7 @@ const FormAccount:React.FC<any> = () => {
     const { colors } = useTheme()
     const navigation = useNavigation()
 
-    const { show, close, isActive }  = useToast()
+    const { show } = useCustomToast()
 
     const schema = yup.object().shape({
         name: yup
@@ -43,33 +47,27 @@ const FormAccount:React.FC<any> = () => {
     const onSubmit = async ({name, balance}: any) => {
         setIsLoading(true)
         try {
-            const { status } = await api.post('/accounts', {
+            const { status: statusCode } = await api.post('/accounts', {
                 name,
                 balance
             })
 
-            const toastId = 'form-account'
-            const message = status === 201
+            const message = statusCode === 201
                 ? 'Conta cadastrada com sucesso'
                 : 'Erro ao cadastradar conta'
             
-            if(!isActive(toastId)){
-                show({
-                    render: () => 
-                        <ToastAlert                         
-                            title='Cadastro'
-                            description={message}
-                            status={status === 201 ? 'success' : 'error'}
-                            isClosable
-                            close={() => close(toastId)}
-                        />,
-                    duration: 1000 * 3, // ms * ss
-                    placement: 'top',
-                    id: toastId
-                })
-            }
+            const status = statusCode === 201 
+                ? 'success'
+                : 'error'
 
-            if(status === 201) {
+            show({
+                id: 'form-account',
+                title: 'Nova conta',
+                message,
+                status
+            })
+
+            if(statusCode === 201) {
                 reset()
                 navigation.goBack()
             }
@@ -95,13 +93,11 @@ const FormAccount:React.FC<any> = () => {
 
             <VStack
                 flex={1}
-                paddingY={8}
+                paddingTop={8}
                 paddingX={8}
-                justifyContent="space-around"
+                justifyContent="space-between"
             >
-                <VStack
-                    flex= {1}
-                >   
+                <VStack>   
                     <InputForm
                         title='Nome da conta'
                         placeholder='Ex: Carteira'

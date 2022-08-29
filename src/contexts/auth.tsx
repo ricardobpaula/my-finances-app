@@ -2,7 +2,6 @@ import React, {
     createContext,
     useState,
     useEffect,
-    useContext
 } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -12,9 +11,8 @@ import jwtDecode from 'jwt-decode'
 import { getAuthStorage, setAuthStorage } from '../utils/storage'
 
 import api from '../services/api'
-import { useToast } from 'native-base'
 import ToastAlert from '../components/ToastAlert'
-
+import { useCustomToast } from '../hooks/useCustomToast'
 interface AuthProps {
     user: User
     token: string
@@ -29,7 +27,7 @@ interface AuthContextProps {
     loading: boolean
     signed: boolean
     user: User
-    login(request: RequestProps): Promise<boolean>
+    login(request: RequestProps): Promise<void>
     logout(): Promise<void>
 }
 
@@ -42,8 +40,8 @@ export const AuthContext = createContext<AuthContextProps>({} as AuthContextProp
 export const AuthProvider:React.FC<AuthProviderProps> = ({children}) => {
     const [user, setUser] = useState<User>()
     const [loading, setLoading] = useState<boolean>(true)
-    const { show, close, isActive } = useToast()
-    
+    const { show } = useCustomToast()
+
     useEffect(() => {
         async function loadStorage() {
             const storage = await getAuthStorage()
@@ -67,7 +65,7 @@ export const AuthProvider:React.FC<AuthProviderProps> = ({children}) => {
         loadStorage()
     },[])
 
-    async function login({email, password}: RequestProps):Promise<boolean> {
+    async function login({email, password}: RequestProps):Promise<void> {
         try {
             const { data: { user, token} } = await api.post<AuthProps>('/auth/login', {
                 email,
@@ -90,15 +88,14 @@ export const AuthProvider:React.FC<AuthProviderProps> = ({children}) => {
 
             setUser(user)
             setLoading(false)
-            return true
 
-        }catch (error: any) {
+        } catch (error: any) {
             const toastId = 'toast-login'
-            const status = error?.response?.status ?? 500
-
+            const statusCode = error?.response?.status ?? 500
+            const status = statusCode === 404 ? 'warning' : 'error'
             let message = ''
 
-            switch (status) {
+            switch (statusCode) {
                 case 404:
                   message = 'E-mail e/ou senha estão incorretos.'
                   break
@@ -110,23 +107,12 @@ export const AuthProvider:React.FC<AuthProviderProps> = ({children}) => {
                   break
             }
               
-            if(!isActive(toastId)){
-                show({
-                    render: () => 
-                        <ToastAlert                         
-                            title='Login'
-                            description={message}
-                            status={status === 404 ? 'warning' : 'error'}
-                            isClosable
-                            close={() => close(toastId)}
-                        />,
-                    duration: 1000 * 3, // ms * ss
-                    placement: 'top',
-                    id: toastId
-                })
-            }
-              
-            return false
+            show({
+                id: toastId,
+                title: 'Login',
+                message,
+                status
+            })
         }
     }
 

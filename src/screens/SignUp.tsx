@@ -4,8 +4,7 @@ import {
     VStack,
     Heading,
     ScrollView,
-    useTheme,
-    useToast
+    useTheme
 } from 'native-base' 
 
 import * as yup from 'yup'
@@ -20,6 +19,7 @@ import api from '../services/api'
 import { useAuth } from '../hooks/useAuth'
 import { Envelope, LockKey, User } from 'phosphor-react-native'
 import ToastAlert from '../components/ToastAlert'
+import { useCustomToast } from '../hooks/useCustomToast'
 
 const SignUp:React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -27,7 +27,7 @@ const SignUp:React.FC = () => {
     const { colors } = useTheme()
     const { login } = useAuth()
 
-    const { show, close, isActive } = useToast()
+    const { show } = useCustomToast()
 
     const schema = yup.object().shape({
         firstName: yup
@@ -74,9 +74,10 @@ const SignUp:React.FC = () => {
             const toastId = 'toast-sign-up'
             let message = ''
 
-            const status = error?.response?.status ?? 500
+            const statusCode = error?.response?.status ?? 500
 
-            switch (status) {
+            const status = statusCode === 400 ? 'warning' : 'error'
+            switch (statusCode) {
                 case 400:
                     message = 'Esse e-mail já está sendo utilizado'
                     break
@@ -87,22 +88,14 @@ const SignUp:React.FC = () => {
                     message = 'Erro ao realizar o cadastro'
                     break
             }
+            
+            show({
+                id: toastId,
+                title: 'Novo usúario',
+                status,
+                message
+            })
 
-            if(!isActive(toastId)){
-                show({
-                    render: () => 
-                        <ToastAlert                         
-                            title='Login'
-                            description={message}
-                            status={status === 400 ? 'warning' : 'error'}
-                            isClosable
-                            close={() => close(toastId)}
-                        />,
-                    duration: 1000 * 3, // ms * ss
-                    placement: 'top',
-                    id: toastId
-                })
-            }
             setIsLoading(false)
         }
     }
