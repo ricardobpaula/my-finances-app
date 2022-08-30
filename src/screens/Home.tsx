@@ -54,7 +54,7 @@ const Home:React.FC = () => {
     }
 
     const handleCreateCreditCard = () => {
-        console.log('createCreditCard')
+        navigation.navigate('FormCreditCard')
     }
 
     return (
