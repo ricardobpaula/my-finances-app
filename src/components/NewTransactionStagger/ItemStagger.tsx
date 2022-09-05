@@ -1,41 +1,38 @@
 import React from 'react' 
 
 import {
+    Box,
     Text,
     HStack,
-    IPressableProps,
-    useTheme,
     Pressable,
-    Box
+    IPressableProps
 } from 'native-base' 
 
 type ItemStaggerProps = IPressableProps & {
     title: string
     icon: React.ReactNode
-    backgroundColorIcon: string
+    backgroundColor: string
 }
 
-const ItemStagger:React.FC<ItemStaggerProps> = ({title, icon,backgroundColorIcon, ...rest}) => {
-    const { colors } = useTheme()
-
+const ItemStagger:React.FC<ItemStaggerProps> = ({title, icon,backgroundColor, ...rest}) => {
     return (
         <Pressable
             _pressed={{opacity: 0.7}}
             {...rest}
+            flex={1}
         >
             <HStack
                 space={2}
                 marginX={5}
                 marginY={3}
+                justifyContent='space-between'
                 alignItems='center'
-                justifyContent='flex-end'
+                backgroundColor={backgroundColor}
+                padding={3}
+                rounded={30}
             >
-                <Text color='gray.100'>{title}</Text>
-                <Box
-                        backgroundColor={backgroundColorIcon}
-                        padding={3}
-                        rounded={30}
-                    >
+                <Text paddingLeft={2} color='gray.700'>{title}</Text>
+                <Box borderLeftWidth={1} paddingLeft={2}>
                     {icon}
                 </Box>
             </HStack>
